@@ -10,16 +10,19 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData.light(),
       home: Scaffold(
         body: Center(
-          child: Text('跟着JSPang(胖)学习Flutter，一起加油吧！',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: TextStyle(
-                fontSize: 23.0,
-                fontStyle: FontStyle.italic,
-                color: Color.fromARGB(255,255, 125, 125),
-                decoration: TextDecoration.underline,
-                decorationStyle: TextDecorationStyle.solid
+          child: Container(
+            child: Text('hello zz', style: TextStyle(fontSize: 40.0)),
+            alignment: Alignment.topLeft,
+            width: 500.0,
+            height: 400.0,
+            // color: Colors.blue,
+            padding: const EdgeInsets.fromLTRB(10.0, 30.0, 0.0, 0.0),
+            margin: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Colors.lightBlue,Colors.greenAccent,Colors.purple]
+                ),
+                border: Border.all(width: 5.0,color: Colors.red)
             ),
           ),
         ),
