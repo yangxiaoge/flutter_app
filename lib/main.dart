@@ -11,19 +11,16 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: Container(
-            child: Text('hello zz', style: TextStyle(fontSize: 40.0)),
-            alignment: Alignment.topLeft,
-            width: 500.0,
-            height: 400.0,
-            // color: Colors.blue,
-            padding: const EdgeInsets.fromLTRB(10.0, 30.0, 0.0, 0.0),
-            margin: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Colors.lightBlue,Colors.greenAccent,Colors.purple]
-                ),
-                border: Border.all(width: 5.0,color: Colors.red)
-            ),
+            child: Image.network(
+              "https://i2.hdslb.com/bfs/face/0cca7e53848ebd079e1b55fde929a473a882ee7f.jpg@68w_68h.webp",
+              // fit: BoxFit.contain, //图片填充模式
+              // color: Color(0xffff0000), //颜色混合
+              // colorBlendMode: BlendMode.darken, //混合模式
+              repeat: ImageRepeat.repeatX,
+              ),
+            width: 300.0,
+            height: 200.0,
+            color: Colors.lightBlue,
           ),
         ),
       ),
