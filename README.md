@@ -11,3 +11,6 @@ For help getting started with Flutter, view our online
 [视频地址](https://www.bilibili.com/video/av35800108?p=8)
 
 ![](/screenshot/JSPang_Videos.png)
+
+## 摘记
+`alignment`: 对齐方式
