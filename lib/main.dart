@@ -6,44 +6,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ColumnWidget',
+      title: 'StackWidget',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('ColumnWidget'),
+            title: Text('Stack 层叠布局'),
           ),
-          body: ColumnWidget()),
+          body: StackWidget()),
     );
   }
 }
 
-class ColumnWidget extends StatelessWidget {
+class StackWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    // 定义层叠布局
+    var stack = Stack(
+      alignment:FractionalOffset(0.5, 1), //AlignmentDirectional.bottomCenter, //让Container布局居下(可以用多种方式实现)
       children: <Widget>[
-        Center(
-          child: RaisedButton(
-            color: Colors.redAccent,
-            child: Text('红色按钮'),
-            onPressed: () {},
-          ),
+        CircleAvatar(
+          backgroundImage: NetworkImage(
+              'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2541280047.jpg'),
+          radius: 100.0, //圆形弧度
         ),
-        Center(
-          child: RaisedButton(
-            color: Colors.lightBlue,
-            child: Text('蓝色按钮'),
-            onPressed: () {},
-          ),
-        ),
-        Center(
-          child: RaisedButton(
-            color: Colors.orangeAccent,
-            child: Text('黄色按钮'),
-            onPressed: () {},
-          ),
-        ),
+        Container(
+          decoration: BoxDecoration(color: Colors.redAccent),
+          padding: EdgeInsets.all(5.0),
+          child: Text('小猪猪你好',
+          style: TextStyle(color: Colors.white),),
+        )
       ],
     );
+    return Center(child: stack,);
   }
 }
