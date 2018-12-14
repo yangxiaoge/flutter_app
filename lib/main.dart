@@ -6,46 +6,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'GridView',
+      title: 'RowWidget',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('GridView'),
+            title: Text('RowWidget'),
           ),
-          body: MyGridView()),
+          body: RowWidget()),
     );
   }
 }
 
-class MyGridView extends StatelessWidget {
+class RowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      padding: EdgeInsets.all(10.0),
-      scrollDirection: Axis.vertical,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          childAspectRatio: 0.7),
+    return Row(
       children: <Widget>[
-        Image.network(
-            'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2541280047.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2540924496.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2540940050.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2541019743.jpg'),
-        Image.network(
-            'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2539666559.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2539661066.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2537158013.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2538352472.jpg'),
-        Image.network(
-            'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2540513831.jpg')
+        Expanded( // Expanded 灵活水平布局
+          child: RaisedButton(
+            color: Colors.redAccent,
+            child: Text('红色按钮'),
+            onPressed: () {},
+          ),
+        ),
+        RaisedButton(
+          color: Colors.lightBlue,
+          child: Text('蓝色按钮'),
+          onPressed: () {},
+        ),
+        RaisedButton(
+          color: Colors.orangeAccent,
+          child: Text('黄色按钮'),
+          onPressed: () {},
+        ),
       ],
     );
   }
