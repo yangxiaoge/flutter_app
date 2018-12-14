@@ -6,37 +6,42 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RowWidget',
+      title: 'ColumnWidget',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('RowWidget'),
+            title: Text('ColumnWidget'),
           ),
-          body: RowWidget()),
+          body: ColumnWidget()),
     );
   }
 }
 
-class RowWidget extends StatelessWidget {
+class ColumnWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Expanded( // Expanded 灵活水平布局
+        Center(
           child: RaisedButton(
             color: Colors.redAccent,
             child: Text('红色按钮'),
             onPressed: () {},
           ),
         ),
-        RaisedButton(
-          color: Colors.lightBlue,
-          child: Text('蓝色按钮'),
-          onPressed: () {},
+        Center(
+          child: RaisedButton(
+            color: Colors.lightBlue,
+            child: Text('蓝色按钮'),
+            onPressed: () {},
+          ),
         ),
-        RaisedButton(
-          color: Colors.orangeAccent,
-          child: Text('黄色按钮'),
-          onPressed: () {},
+        Center(
+          child: RaisedButton(
+            color: Colors.orangeAccent,
+            child: Text('黄色按钮'),
+            onPressed: () {},
+          ),
         ),
       ],
     );
