@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'SecondPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,45 +7,48 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CardWidget',
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Card 卡片布局'),
-          ),
-          body: StackWidget()),
+      title: '导航演示',
+      home: FirstPage(),
     );
   }
 }
 
-class StackWidget extends StatelessWidget {
+class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // 定义Card布局
-    var card = Card(
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text('江苏省南京市江北新区'),
-            subtitle: Text('星火路'),
-            leading: Icon(Icons.account_balance),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('导航页面'),
+        ),
+        body: Center(
+          child: RaisedButton(
+            child: Text('跳转到SecondPage'),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SecondPage(),
+                  ));
+            },
           ),
-          Divider(color: Colors.redAccent,indent: 20.0,),
-          ListTile(
-            title: Text('江苏省南京市鼓楼区'),
-            subtitle: Text('紫峰大厦'),
-            leading: Icon(Icons.map),
-          ),
-          Divider(),
-          ListTile(
-            title: Text('江苏省南京市玄武区'),
-            subtitle: Text('玄武湖'),
-            leading: Icon(Icons.leak_add),
-          )
-        ],
-      ),
-    );
-    return Center(
-      child: card,
-    );
+        ));
   }
 }
+
+// class SecondPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: Text('导航页面2'),
+//         ),
+//         body: Center(
+//           child: RaisedButton(
+//             child: Text('返回'),
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//           ),
+//         ));
+//   }
+// }
