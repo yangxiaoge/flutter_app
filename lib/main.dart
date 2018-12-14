@@ -6,10 +6,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'StackWidget',
+      title: 'CardWidget',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Stack 层叠布局'),
+            title: Text('Card 卡片布局'),
           ),
           body: StackWidget()),
     );
@@ -19,35 +19,32 @@ class MyApp extends StatelessWidget {
 class StackWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // 定义层叠布局
-    var stack = Stack(
-      alignment: FractionalOffset(0.5,
-          1), //AlignmentDirectional.bottomCenter, //让Container布局居下(可以用多种方式实现)
-      children: <Widget>[
-        CircleAvatar(
-          backgroundImage: NetworkImage(
-              'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2541280047.jpg'),
-          radius: 100.0, //圆形弧度
-        ),
-        Positioned(
-          top: 10.0,
-          left: 35.0,
-          child: Text(
-            'yangxiaoge.github.io',
-            style: TextStyle(color: Color(0xffff0000)),
+    // 定义Card布局
+    var card = Card(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text('江苏省南京市江北新区'),
+            subtitle: Text('星火路'),
+            leading: Icon(Icons.account_balance),
           ),
-        ),
-        Positioned(
-          bottom: 10.0,
-          right: 60.0,
-          child: Text(
-            'yangxiaoge',
-          style: TextStyle(color: Colors.redAccent)),
-        ),
-      ],
+          Divider(color: Colors.redAccent,indent: 20.0,),
+          ListTile(
+            title: Text('江苏省南京市鼓楼区'),
+            subtitle: Text('紫峰大厦'),
+            leading: Icon(Icons.map),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('江苏省南京市玄武区'),
+            subtitle: Text('玄武湖'),
+            leading: Icon(Icons.leak_add),
+          )
+        ],
+      ),
     );
     return Center(
-      child: stack,
+      child: card,
     );
   }
 }
