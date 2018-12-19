@@ -1,65 +1,68 @@
 import 'package:flutter/material.dart';
 
-class Product {
-  final String title;
-  final String desc;
-  Product(this.title, this.desc);
-}
-
 void main() {
   runApp(MaterialApp(
-    title: '导航的数据传递和接收',
-    home: ProductListView(
-        products: List.generate(100, (i) => Product('商品 $i', '商品详情,编号为：$i'))),
+    title: "页面跳转返回数据",
+    home: FirstPage(),
   ));
 }
 
-class ProductListView extends StatelessWidget {
-  final List<Product> products;
-
-  ProductListView({Key key, @required this.products}) : super(key: key);
-
+class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('商品列表'),
+        title: Text('页面1'),
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, i) => Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text('${products[i].title}'),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetail(itemProduct: products[i]),
-                        ));
-                  },
-                ),
-                Divider(color: Color(0xfff8bbd0),)
-              ],
-            ),
+      body: Center(
+        child: RouteButton(),
       ),
     );
   }
 }
 
-class ProductDetail extends StatelessWidget {
-  final Product itemProduct;
-  ProductDetail({Key key, this.itemProduct}) : super(key: key);
+class RouteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: () {
+        _navigateToSecond(context);
+      },
+      child: Text('去第二页'),
+    );
+  }
+
+  _navigateToSecond(BuildContext context) async { //异步请求
+    final result = await Navigator.push( //等待资源回来之后显示
+        context, MaterialPageRoute(builder: (context) => SecondPage()));
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(result)));
+  }
+}
+
+class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('商品详情页'),
+        title: Text('页面2'),
       ),
       body: Center(
-        child: Text(itemProduct.desc),
-      ),
+          child: Column(
+        children: <Widget>[
+          RaisedButton(
+            child: Text('携带数据返回上一页-1'),
+            onPressed: () {
+              Navigator.pop(context, '返回数据111');
+            },
+          ),
+          RaisedButton(
+            child: Text('携带数据返回上一页-2'),
+            onPressed: () {
+              Navigator.pop(context, '返回数据222');
+            },
+          ),
+        ],
+      )),
     );
   }
 }
