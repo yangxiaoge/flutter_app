@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:dio/dio.dart'; //网络
 import 'package:http/http.dart' as http; //网络
 import 'dart:convert'; //解码和编码 JSON
 
-void main() => runApp(MyApp());
+void main() {
+  // 设置竖屏模式
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   final response = "";
@@ -31,27 +38,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('网络请求'),
-      ),
-      body:SingleChildScrollView(child: 
-       Center(
-        child: Column(
-          children: <Widget>[
-            RaisedButton(
-              onPressed: () {
-                _dioRead();
-                _httpRead();
-              },
-              child: Text('请求网络Get'),
-            ),
-            Text(responseDataFromdio),
-            Container(padding: EdgeInsets.all(16.0),),
-            Text(responseDataFromHttp),
-          ],
+        appBar: AppBar(
+          title: Text('网络请求'),
         ),
-      ),)
-    );
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () async {
+                    _dioRead();
+                    _httpRead();
+                  },
+                  child: Text('请求网络Get'),
+                ),
+                Text(responseDataFromdio),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                ),
+                Text(responseDataFromHttp),
+              ],
+            ),
+          ),
+        ));
   }
 
   _dioRead() async {
