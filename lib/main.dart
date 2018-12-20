@@ -1,51 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart'; //网络
+import 'package:http/http.dart' as http; //网络
+import 'dart:convert'; //解码和编码 JSON
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final response = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Image',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Image'),
-        ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Text(
-                '本地图片：',
-                style: TextStyle(color: Colors.red),
-              ),
-              Image.asset(
-                'images/funny1.jpeg',
-                width: 200,
-                height: 200,
-              ),
-              Divider(),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      '网络图片：',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    Image.network(
-                      'https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2541280047.webp',
-                      width: 140,
-                      height: 200,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      home: MyHomePage(),
     );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyHomePageState();
+  }
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var responseDataFromdio = '';
+  var responseDataFromHttp = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('网络请求'),
+      ),
+      body:SingleChildScrollView(child: 
+       Center(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                _dioRead();
+                _httpRead();
+              },
+              child: Text('请求网络Get'),
+            ),
+            Text(responseDataFromdio),
+            Container(padding: EdgeInsets.all(16.0),),
+            Text(responseDataFromHttp),
+          ],
+        ),
+      ),)
+    );
+  }
+
+  _dioRead() async {
+    Dio dio = new Dio();
+    Response getResponse = await dio.get(
+        'https://easy-mock.com/mock/5997cce9059b9c566dc7e771/leitaijingji_list/getAppConsole111');
+    print('statusCode: ' + getResponse.statusCode.toString());
+    print('getResponse: ' + getResponse.data.toString());
+
+    setState(() {
+      responseDataFromdio = 'dio请求报文内容：\n' + getResponse.data.toString();
+    });
+  }
+
+  _httpRead() async {
+    final response = await http.get(
+        'https://easy-mock.com/mock/5997cce9059b9c566dc7e771/leitaijingji_list/getAppConsole111');
+    print('getResponse: ' + response.body);
+    setState(() {
+      responseDataFromHttp = 'http请求报文内容：\n' + response.body;
+    });
   }
 }
