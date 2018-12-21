@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter/services.dart';
-import 'package:dio/dio.dart'; //网络
-import 'package:http/http.dart' as http; //网络
-import 'dart:convert'; //解码和编码 JSON
+import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() {
   // 设置竖屏模式
@@ -13,74 +12,121 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final response = "";
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Image',
-      home: MyHomePage(),
+      home: MyBarPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyBarPage extends StatefulWidget {
+  _MyBarPageState createState() => _MyBarPageState();
+}
+
+class _MyBarPageState extends State<MyBarPage> {
   @override
-  State<StatefulWidget> createState() {
-    return _MyHomePageState();
+  Widget build(BuildContext context) {
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('bar chart'),
+        ),
+        body: Container(
+          height: 250.0,
+          child: SimpleBarChart(SimpleBarChart._createRandomData()),
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.refresh),
+            onPressed: () {
+              //刷新页面
+              setState(() {});
+            }),
+      ),
+    );
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var responseDataFromdio = '';
-  var responseDataFromHttp = '';
+// SimpleBarChart源码地址： https://github.com/google/charts
+class SimpleBarChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  SimpleBarChart(this.seriesList, {this.animate});
+
+  /// Creates a [BarChart] with sample data and no transition.
+  factory SimpleBarChart.withSampleData() {
+    return new SimpleBarChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+  // EXCLUDE_FROM_GALLERY_DOCS_START
+  // This section is excluded from being copied to the gallery.
+  // It is used for creating random series data to demonstrate animation in
+  // the example app only.
+  factory SimpleBarChart.withRandomData() {
+    return new SimpleBarChart(_createRandomData());
+  }
+
+  /// Create random data.
+  static List<charts.Series<OrdinalSales, String>> _createRandomData() {
+    final random = new Random();
+
+    final data = [
+      new OrdinalSales('2014', random.nextInt(100)),
+      new OrdinalSales('2015', random.nextInt(100)),
+      new OrdinalSales('2016', random.nextInt(100)),
+      new OrdinalSales('2017', random.nextInt(100)),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  }
+  // EXCLUDE_FROM_GALLERY_DOCS_END
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('网络请求'),
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () async {
-                    _dioRead();
-                    _httpRead();
-                  },
-                  child: Text('请求网络Get'),
-                ),
-                Text(responseDataFromdio),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                ),
-                Text(responseDataFromHttp),
-              ],
-            ),
-          ),
-        ));
+    return new charts.BarChart(
+      seriesList,
+      animate: animate,
+    );
   }
 
-  _dioRead() async {
-    Dio dio = new Dio();
-    Response getResponse = await dio.get(
-        'https://easy-mock.com/mock/5997cce9059b9c566dc7e771/leitaijingji_list/getAppConsole111');
-    print('statusCode: ' + getResponse.statusCode.toString());
-    print('getResponse: ' + getResponse.data.toString());
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
 
-    setState(() {
-      responseDataFromdio = 'dio请求报文内容：\n' + getResponse.data.toString();
-    });
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
   }
+}
 
-  _httpRead() async {
-    final response = await http.get(
-        'https://easy-mock.com/mock/5997cce9059b9c566dc7e771/leitaijingji_list/getAppConsole111');
-    print('getResponse: ' + response.body);
-    setState(() {
-      responseDataFromHttp = 'http请求报文内容：\n' + response.body;
-    });
-  }
+/// Sample ordinal data type.
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
 }
